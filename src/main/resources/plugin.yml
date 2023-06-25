@@ -1,0 +1,4 @@
+name: PingWheel
+version: '${project.version}'
+main: me.axerr.pingwheel.PingWheel
+api-version: 1.19
