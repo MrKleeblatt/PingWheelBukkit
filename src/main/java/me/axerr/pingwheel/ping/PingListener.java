@@ -65,13 +65,13 @@ public class PingListener implements PluginMessageListener {
     }
 
     private boolean validateLimits(Ping ping) {
-        if (Config.LIMIT_X_ENABLED && (ping.getX() > Config.LIMIT_X_MAX || ping.getX() < Config.LIMIT_X_MIN))
-            return false;
-        if (Config.LIMIT_Y_ENABLED && (ping.getY() > Config.LIMIT_Y_MAX || ping.getY() < Config.LIMIT_Y_MIN))
-            return false;
-        if (Config.LIMIT_Z_ENABLED && (ping.getZ() > Config.LIMIT_Z_MAX || ping.getZ() < Config.LIMIT_Z_MIN))
-            return false;
-        return true;
+        return isWithinLimits(ping.getX(), Config.LIMIT_X_ENABLED, Config.LIMIT_X_MIN, Config.LIMIT_X_MAX)
+                && isWithinLimits(ping.getY(), Config.LIMIT_Y_ENABLED, Config.LIMIT_Y_MIN, Config.LIMIT_Y_MAX)
+                && isWithinLimits(ping.getZ(), Config.LIMIT_Z_ENABLED, Config.LIMIT_Z_MIN, Config.LIMIT_Z_MAX);
+    }
+
+    private boolean isWithinLimits(double value, boolean isEnabled, double minLimit, double maxLimit) {
+        return !isEnabled || (value >= minLimit && value <= maxLimit);
     }
 
     public void broadcastPing(byte[] data, World world) {
