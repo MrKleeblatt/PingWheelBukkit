@@ -1,6 +1,7 @@
 package me.axerr.pingwheel;
 
 import lombok.Getter;
+import me.axerr.pingwheel.ping.PingListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.Messenger;
 
