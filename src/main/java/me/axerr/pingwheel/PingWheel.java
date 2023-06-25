@@ -14,11 +14,33 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 public final class PingWheel extends JavaPlugin implements PluginMessageListener {
     @Override
     public void onEnable() {
+        if (!isPaper())
+            return;
+
         Config.loadConfig(this);
 
         Messenger messenger = getServer().getMessenger();
         messenger.registerIncomingPluginChannel(this, "ping-wheel-c2s:ping-location", this);
         messenger.registerOutgoingPluginChannel(this, "ping-wheel-s2c:ping-location");
+    }
+
+    private boolean isPaper() {
+        if (hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration"))
+            return true;
+        getLogger().severe("=====");
+        getLogger().severe(" PingWheelBukkit requires PaperMC.io as your server software.");
+        getLogger().severe("=====");
+        getServer().getPluginManager().disablePlugin(this);
+        return false;
+    }
+
+    private static boolean hasClass(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
