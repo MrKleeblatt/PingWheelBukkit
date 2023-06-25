@@ -26,8 +26,8 @@ public class Config {
     public static double LIMIT_Z_MIN;
 
     public static boolean RATE_LIMIT_ENABLED;
-    public static int RATE_LIMIT_THRESHOLD;
-    public static int RATE_LIMIT_TIME;
+    public static int RATE_LIMIT_PING_LIMIT;
+    public static long RATE_LIMIT_TIME_WINDOW;
     public static String RATE_LIMIT_MESSAGE;
     public static boolean RATE_LIMIT_BYPASS_ENABLED;
     public static String RATE_LIMIT_BYPASS_PERMISSION;
@@ -64,8 +64,8 @@ public class Config {
         LIMIT_Z_MIN = config.getDouble("limits.z.min");
 
         RATE_LIMIT_ENABLED = config.getBoolean("rate-limit.enabled");
-        RATE_LIMIT_THRESHOLD = config.getInt("rate-limit.threshold");
-        RATE_LIMIT_TIME = config.getInt("rate-limit.time");
+        RATE_LIMIT_PING_LIMIT = config.getInt("rate-limit.ping-limit");
+        RATE_LIMIT_TIME_WINDOW = config.getLong("rate-limit.time-window");
         RATE_LIMIT_MESSAGE = config.getString("rate-limit.rate-limit-message");
         RATE_LIMIT_BYPASS_ENABLED = config.getBoolean("rate-limit.bypass.enabled");
         RATE_LIMIT_BYPASS_PERMISSION = config.getString("rate-limit.bypass.permission");

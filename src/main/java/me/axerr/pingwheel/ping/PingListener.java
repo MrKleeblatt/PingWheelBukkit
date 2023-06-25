@@ -4,8 +4,6 @@ import io.netty.buffer.Unpooled;
 import me.axerr.pingwheel.Config;
 import me.axerr.pingwheel.PingWheel;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
-import me.axerr.pingwheel.ratelimit.PlayerData;
-import me.axerr.pingwheel.ratelimit.RateLimit;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -35,13 +33,11 @@ public class PingListener implements PluginMessageListener {
         if (!validateLimits(ping))
             return;
 
-        PlayerData playerData = RateLimit.getData(player.getUniqueId());
-        if (!playerData.canPing(player)) {
+        if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
             if (!Config.RATE_LIMIT_MESSAGE.isEmpty())
                 player.sendMessage(MiniMessage.miniMessage().deserialize(Config.RATE_LIMIT_MESSAGE));
             return;
         }
-        playerData.ping();
 
         broadcastPing(message, player.getWorld());
 

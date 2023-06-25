@@ -29,7 +29,8 @@ limits:
 
 rate-limit:
   enabled: true
-  time: 400 # 0.4 seconds
+  ping-limit: 5
+  time-window: 10000 # 10 seconds
   rate-limit-message: "<gradient:#5ad396:#03c574><b>Ping Wheel<b></gradient> <#42a85a>» <white>Wait a while before the next ping!"
   bypass:
     enabled: true

@@ -2,6 +2,7 @@ package me.axerr.pingwheel;
 
 import lombok.Getter;
 import me.axerr.pingwheel.ping.PingListener;
+import me.axerr.pingwheel.ratelimit.RateLimiter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.Messenger;
 
@@ -9,9 +10,13 @@ public final class PingWheel extends JavaPlugin {
     @Getter
     private static PingWheel plugin;
 
+    @Getter
+    private static RateLimiter rateLimiter;
+
     @Override
     public void onEnable() {
         plugin = this;
+        rateLimiter = new RateLimiter();
 
         if (!isPaper())
             return;
