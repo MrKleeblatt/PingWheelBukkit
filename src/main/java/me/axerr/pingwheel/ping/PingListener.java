@@ -6,6 +6,7 @@ import me.axerr.pingwheel.PingWheel;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -35,7 +36,7 @@ public class PingListener implements PluginMessageListener {
 
         if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
             if (!Config.RATE_LIMIT_MESSAGE.isEmpty())
-                player.sendMessage(MiniMessage.miniMessage().deserialize(Config.RATE_LIMIT_MESSAGE));
+                sendMessage(player, Config.RATE_LIMIT_MESSAGE);
             return;
         }
 
@@ -48,7 +49,7 @@ public class PingListener implements PluginMessageListener {
         Player player = ping.getPlayer();
         if (ping.isEntity() && (!Config.ENTITY_PING_ENABLED || (Config.ENTITY_PING_PERMISSION_ENABLED && !player.hasPermission(Config.ENTITY_PING_PERMISSION)))) {
             if (!Config.ENTITY_PING_NO_PERMISSION_MESSAGE.isEmpty())
-                player.sendMessage(MiniMessage.miniMessage().deserialize(Config.ENTITY_PING_NO_PERMISSION_MESSAGE));
+                sendMessage(player, Config.ENTITY_PING_NO_PERMISSION_MESSAGE);
             return false;
         }
         return true;
@@ -58,7 +59,7 @@ public class PingListener implements PluginMessageListener {
         Player player = ping.getPlayer();
         if (!ping.isEntity() && ((!Config.LOCATION_PING_ENABLED) || (Config.LOCATION_PING_PERMISSION_ENABLED && !player.hasPermission(Config.LOCATION_PING_PERMISSION)))) {
             if (!Config.LOCATION_PING_NO_PERMISSION_MESSAGE.isEmpty())
-                player.sendMessage(MiniMessage.miniMessage().deserialize(Config.LOCATION_PING_NO_PERMISSION_MESSAGE));
+                sendMessage(player, Config.LOCATION_PING_NO_PERMISSION_MESSAGE);
             return false;
         }
         return true;
@@ -84,6 +85,13 @@ public class PingListener implements PluginMessageListener {
                     data
             );
         }
+    }
+
+    private void sendMessage(Player player, String message) {
+        if (PingWheel.isModernMessages())
+            player.sendMessage(MiniMessage.miniMessage().deserialize(message));
+        else
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     private void logPing(Ping ping) {

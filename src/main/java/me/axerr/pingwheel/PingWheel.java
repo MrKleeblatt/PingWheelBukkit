@@ -13,13 +13,14 @@ public final class PingWheel extends JavaPlugin {
     @Getter
     private static RateLimiter rateLimiter;
 
+    @Getter
+    private static boolean modernMessages;
+
     @Override
     public void onEnable() {
         plugin = this;
         rateLimiter = new RateLimiter();
-
-        if (!isPaper())
-            return;
+        modernMessages = isPaper();
 
         Config.loadConfig(plugin);
 
@@ -36,13 +37,8 @@ public final class PingWheel extends JavaPlugin {
     }
 
     private boolean isPaper() {
-        if (hasClass("com.destroystokyo.paper.PaperConfig") || hasClass("io.papermc.paper.configuration.Configuration"))
-            return true;
-        getLogger().severe("=====");
-        getLogger().severe(" PingWheelBukkit requires PaperMC.io as your server software.");
-        getLogger().severe("=====");
-        getServer().getPluginManager().disablePlugin(plugin);
-        return false;
+        return hasClass("com.destroystokyo.paper.PaperConfig") ||
+                hasClass("io.papermc.paper.configuration.Configuration");
     }
 
     private static boolean hasClass(String className) {
