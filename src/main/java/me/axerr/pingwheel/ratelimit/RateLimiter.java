@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class RateLimiter {
-    private Map<UUID, List<Long>> buckets;
+    private final Map<UUID, List<Long>> pings;
 
     public RateLimiter() {
-        this.buckets = new HashMap<>();
+        this.pings = new HashMap<>();
 
         PingWheel.getPlugin()
                 .getServer()
@@ -19,15 +19,15 @@ public class RateLimiter {
     }
 
     public void removeUnusedEntries() {
-        buckets.forEach((key, value) -> value.removeIf(list -> list + Config.RATE_LIMIT_TIME_WINDOW < System.currentTimeMillis()));
-        buckets.entrySet().removeIf(entry -> entry.getValue().size() == 0);
+        pings.forEach((key, value) -> value.removeIf(list -> list + Config.RATE_LIMIT_TIME_WINDOW < System.currentTimeMillis()));
+        pings.entrySet().removeIf(entry -> entry.getValue().size() == 0);
     }
 
     public boolean canPing(Player player) {
         if (!Config.RATE_LIMIT_ENABLED)
             return true;
 
-        List<Long> pingTimes = buckets.computeIfAbsent(player.getUniqueId(), k -> new ArrayList<>());
+        List<Long> pingTimes = pings.computeIfAbsent(player.getUniqueId(), k -> new ArrayList<>());
         pingTimes.removeIf(entry -> entry + Config.RATE_LIMIT_TIME_WINDOW < System.currentTimeMillis());
 
         int pings = pingTimes.size();
