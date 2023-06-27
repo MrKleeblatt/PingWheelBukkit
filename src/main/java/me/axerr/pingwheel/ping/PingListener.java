@@ -66,9 +66,9 @@ public class PingListener implements PluginMessageListener {
         if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
             if (!Config.RATE_LIMIT_MESSAGE.isEmpty())
                 sendMessage(player, Config.RATE_LIMIT_MESSAGE);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public void broadcastPing(byte[] data, World world) {
