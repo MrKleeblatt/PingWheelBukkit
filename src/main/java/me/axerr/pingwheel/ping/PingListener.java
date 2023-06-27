@@ -16,17 +16,8 @@ public class PingListener implements PluginMessageListener {
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         FriendlyByteBuf data = new FriendlyByteBuf(Unpooled.copiedBuffer(message));
-        Ping ping = new Ping(
-                player,
-                data.readString(),
-                data.readDouble(),
-                data.readDouble(),
-                data.readDouble(),
-                data.readBoolean(),
-                null
-        );
-        if (ping.isEntity())
-            ping.setEntityUUID(data.readUUID());
+
+        Ping ping = new Ping(player, data);
 
         if (!validateEntityPing(ping))
             return;
