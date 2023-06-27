@@ -2,6 +2,7 @@ package me.axerr.pingwheel.ping;
 
 import io.netty.buffer.Unpooled;
 import me.axerr.pingwheel.Config;
+import me.axerr.pingwheel.Constants;
 import me.axerr.pingwheel.PingWheel;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -85,7 +86,7 @@ public class PingListener implements PluginMessageListener {
                 continue;
             onlinePlayer.sendPluginMessage(
                     PingWheel.getPlugin(),
-                    "ping-wheel-s2c:ping-location",
+                    Constants.SERVER_TO_CLIENT_CHANNEL,
                     data
             );
         }

@@ -25,15 +25,15 @@ public final class PingWheel extends JavaPlugin {
         Config.loadConfig(plugin);
 
         Messenger messenger = getServer().getMessenger();
-        messenger.registerIncomingPluginChannel(this, "ping-wheel-c2s:ping-location", new PingListener());
-        messenger.registerOutgoingPluginChannel(this, "ping-wheel-s2c:ping-location");
+        messenger.registerIncomingPluginChannel(this, Constants.CLIENT_TO_SERVER_CHANNEL, new PingListener());
+        messenger.registerOutgoingPluginChannel(this, Constants.SERVER_TO_CLIENT_CHANNEL);
     }
 
     @Override
     public void onDisable() {
         Messenger messenger = getServer().getMessenger();
-        messenger.unregisterIncomingPluginChannel(this, "ping-wheel-c2s:ping-location");
-        messenger.unregisterOutgoingPluginChannel(this, "ping-wheel-s2c:ping-location");
+        messenger.unregisterIncomingPluginChannel(this, Constants.CLIENT_TO_SERVER_CHANNEL);
+        messenger.unregisterOutgoingPluginChannel(this, Constants.SERVER_TO_CLIENT_CHANNEL);
     }
 
     private boolean isPaper() {
