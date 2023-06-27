@@ -33,15 +33,10 @@ public class PingListener implements PluginMessageListener {
             return;
         if (!validateLimits(ping))
             return;
-
-        if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
-            if (!Config.RATE_LIMIT_MESSAGE.isEmpty())
-                sendMessage(player, Config.RATE_LIMIT_MESSAGE);
+        if (!validateRateLimit(player))
             return;
-        }
 
         broadcastPing(message, player.getWorld());
-
         logPing(ping);
     }
 
@@ -73,6 +68,15 @@ public class PingListener implements PluginMessageListener {
 
     private boolean isWithinLimits(double value, boolean isEnabled, double minLimit, double maxLimit) {
         return !isEnabled || (value >= minLimit && value <= maxLimit);
+    }
+
+    private boolean validateRateLimit(Player player) {
+        if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
+            if (!Config.RATE_LIMIT_MESSAGE.isEmpty())
+                sendMessage(player, Config.RATE_LIMIT_MESSAGE);
+            return true;
+        }
+        return false;
     }
 
     public void broadcastPing(byte[] data, World world) {
