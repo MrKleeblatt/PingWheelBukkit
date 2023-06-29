@@ -1,5 +1,7 @@
 name: PingWheel
 version: '${project.version}'
+author: Axerr
+website: https://github.com/SandResidence/PingWheelBukkit
 main: me.axerr.pingwheel.PingWheel
 api-version: 1.19
 softdepend: [ WorldGuard ]
