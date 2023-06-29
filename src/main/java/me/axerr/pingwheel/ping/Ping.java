@@ -1,6 +1,5 @@
 package me.axerr.pingwheel.ping;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
