@@ -36,6 +36,10 @@ rate-limit:
     enabled: true
     permission: "pingwheel.ratelimit.bypass"
 
+worldguard:
+  enabled: true
+  deny-message: "<gradient:#5ad396:#03c574><b>Ping Wheel<b></gradient> <#42a85a>» <white>You can't ping in this region!"
+
 logging:
   enabled: false
   message: "%player% pinged (entity: %entity%) at %x%, %y%, %z% on channel %channel%"

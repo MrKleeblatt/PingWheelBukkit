@@ -1,8 +1,14 @@
 package me.axerr.pingwheel;
 
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.flags.StateFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import lombok.Getter;
+import me.axerr.pingwheel.hooks.WorldGuardHook;
 import me.axerr.pingwheel.ping.PingListener;
 import me.axerr.pingwheel.ratelimit.RateLimiter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.Messenger;
 
@@ -27,6 +33,17 @@ public final class PingWheel extends JavaPlugin {
         Messenger messenger = getServer().getMessenger();
         messenger.registerIncomingPluginChannel(this, Constants.CLIENT_TO_SERVER_CHANNEL, new PingListener());
         messenger.registerOutgoingPluginChannel(this, Constants.SERVER_TO_CLIENT_CHANNEL);
+    }
+
+    @Override
+    public void onLoad() {
+        if (!isWorldGuardInstalled())
+            return;
+        WorldGuardHook.hook();
+    }
+
+    private boolean isWorldGuardInstalled() {
+        return getServer().getPluginManager().getPlugin("WorldGuard") != null;
     }
 
     @Override

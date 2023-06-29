@@ -32,6 +32,9 @@ public class Config {
     public static boolean RATE_LIMIT_BYPASS_ENABLED;
     public static String RATE_LIMIT_BYPASS_PERMISSION;
 
+    public static boolean WORLDGUARD_ENABLED;
+    public static String WORLDGUARD_DENY_MESSAGE;
+
     public static boolean LOGGING_ENABLED;
     public static String LOGGING_MESSAGE;
 
@@ -69,6 +72,9 @@ public class Config {
         RATE_LIMIT_MESSAGE = config.getString("rate-limit.rate-limit-message");
         RATE_LIMIT_BYPASS_ENABLED = config.getBoolean("rate-limit.bypass.enabled");
         RATE_LIMIT_BYPASS_PERMISSION = config.getString("rate-limit.bypass.permission");
+
+        WORLDGUARD_ENABLED = config.getBoolean("worldguard.enabled");
+        WORLDGUARD_DENY_MESSAGE = config.getString("worldguard.deny-message");
 
         LOGGING_ENABLED = config.getBoolean("logging.enabled");
         LOGGING_MESSAGE = config.getString("logging.message");

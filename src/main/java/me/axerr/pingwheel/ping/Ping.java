@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -26,5 +27,9 @@ public class Ping {
         this.isEntity = data.readBoolean();
         if (isEntity)
             this.entityUUID = data.readUUID();
+    }
+
+    public Location getLocation() {
+        return new Location(player.getWorld(), x, y, z);
     }
 }

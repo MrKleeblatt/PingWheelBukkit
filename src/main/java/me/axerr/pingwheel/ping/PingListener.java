@@ -5,6 +5,7 @@ import me.axerr.pingwheel.Config;
 import me.axerr.pingwheel.Constants;
 import me.axerr.pingwheel.PingWheel;
 import me.axerr.pingwheel.api.FriendlyByteBuf;
+import me.axerr.pingwheel.hooks.WorldGuardHook;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +25,8 @@ public class PingListener implements PluginMessageListener {
         if (!validateLocationPing(ping))
             return;
         if (!validateLimits(ping))
+            return;
+        if (!validateWorldGuardFlag(ping))
             return;
         if (!validateRateLimit(player))
             return;
@@ -60,6 +63,16 @@ public class PingListener implements PluginMessageListener {
 
     private boolean isWithinLimits(double value, boolean isEnabled, double minLimit, double maxLimit) {
         return !isEnabled || (value >= minLimit && value <= maxLimit);
+    }
+
+    private boolean validateWorldGuardFlag(Ping ping) {
+        Player player = ping.getPlayer();
+        if (Config.WORLDGUARD_ENABLED && WorldGuardHook.canLocationBePinged(ping.getLocation(), player)) {
+            if (!Config.WORLDGUARD_DENY_MESSAGE.isEmpty())
+                sendMessage(player, Config.WORLDGUARD_DENY_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     private boolean validateRateLimit(Player player) {
