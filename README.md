@@ -2,9 +2,10 @@
 
 This is my Bukkit implementation for the Fabric [Minecraft-Ping-Wheel](https://github.com/LukenSkyne/Minecraft-Ping-Wheel/) mod.
 
-## Depediences
+## Integrations
 
-I **do not** use external dependencies (such as [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/)) here. It uses [netty](https://netty.io/) and [MiniMessage](https://docs.advntr.dev/minimessage/index.html), which are shaded in [PaperMC](https://papermc.io/).
+#### WorldGuard
+The plugin has [WorldGuard](https://github.com/EngineHub/WorldGuard) support. Custom flag: `allow-pings` (allow/deny)
 
 ## Plugin Configuration
 
