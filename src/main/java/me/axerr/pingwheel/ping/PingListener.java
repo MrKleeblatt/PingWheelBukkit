@@ -20,15 +20,7 @@ public class PingListener implements PluginMessageListener {
 
         Ping ping = new Ping(player, data);
 
-        if (!validateEntityPing(ping))
-            return;
-        if (!validateLocationPing(ping))
-            return;
-        if (!validateLimits(ping))
-            return;
-        if (!validateWorldGuardFlag(ping))
-            return;
-        if (!validateRateLimit(player))
+        if (!validateEntityPing(ping) || !validateLocationPing(ping) || !validateLimits(ping) || !validateWorldGuardFlag(ping) || !validateRateLimit(player))
             return;
 
         broadcastPing(message, player.getWorld());
@@ -37,20 +29,18 @@ public class PingListener implements PluginMessageListener {
 
     private boolean validateEntityPing(Ping ping) {
         Player player = ping.getPlayer();
-        if (ping.isEntity() && (!Config.ENTITY_PING_ENABLED || (Config.ENTITY_PING_PERMISSION_ENABLED && !player.hasPermission(Config.ENTITY_PING_PERMISSION)))) {
+        boolean valid = ping.isEntity() && (!Config.ENTITY_PING_ENABLED || (Config.ENTITY_PING_PERMISSION_ENABLED && !player.hasPermission(Config.ENTITY_PING_PERMISSION)));
+        if (!valid)
             sendMessage(player, Config.ENTITY_PING_NO_PERMISSION_MESSAGE);
-            return false;
-        }
-        return true;
+        return valid;
     }
 
     private boolean validateLocationPing(Ping ping) {
         Player player = ping.getPlayer();
-        if (!ping.isEntity() && ((!Config.LOCATION_PING_ENABLED) || (Config.LOCATION_PING_PERMISSION_ENABLED && !player.hasPermission(Config.LOCATION_PING_PERMISSION)))) {
+        boolean valid = !ping.isEntity() && ((!Config.LOCATION_PING_ENABLED) || (Config.LOCATION_PING_PERMISSION_ENABLED && !player.hasPermission(Config.LOCATION_PING_PERMISSION)));
+        if (!valid)
             sendMessage(player, Config.LOCATION_PING_NO_PERMISSION_MESSAGE);
-            return false;
-        }
-        return true;
+        return valid;
     }
 
     private boolean validateLimits(Ping ping) {
@@ -65,19 +55,17 @@ public class PingListener implements PluginMessageListener {
 
     private boolean validateWorldGuardFlag(Ping ping) {
         Player player = ping.getPlayer();
-        if (WorldGuardHook.canLocationBePinged(ping.getLocation(), player)) {
+        boolean canPing = WorldGuardHook.canLocationBePinged(ping.getLocation(), player);
+        if (!canPing)
             sendMessage(player, Config.WORLDGUARD_DENY_MESSAGE);
-            return false;
-        }
-        return true;
+        return canPing;
     }
 
     private boolean validateRateLimit(Player player) {
-        if (!PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player)) {
+        boolean canPing = !PingWheel.getRateLimiter().canPing(player) && !PingWheel.getRateLimiter().checkBypass(player);
+        if (!canPing)
             sendMessage(player, Config.RATE_LIMIT_MESSAGE);
-            return false;
-        }
-        return true;
+        return canPing;
     }
 
     public void broadcastPing(byte[] data, World world) {
