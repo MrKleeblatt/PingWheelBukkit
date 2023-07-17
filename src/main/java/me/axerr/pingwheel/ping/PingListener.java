@@ -65,7 +65,7 @@ public class PingListener implements PluginMessageListener {
 
     private boolean validateWorldGuardFlag(Ping ping) {
         Player player = ping.getPlayer();
-        if (Config.WORLDGUARD_ENABLED && WorldGuardHook.canLocationBePinged(ping.getLocation(), player)) {
+        if (WorldGuardHook.canLocationBePinged(ping.getLocation(), player)) {
             sendMessage(player, Config.WORLDGUARD_DENY_MESSAGE);
             return false;
         }
