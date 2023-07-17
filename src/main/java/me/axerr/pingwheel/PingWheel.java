@@ -32,7 +32,7 @@ public final class PingWheel extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        if (!isWorldGuardInstalled())
+        if (!Config.WORLDGUARD_ENABLED || !isWorldGuardInstalled())
             return;
         WorldGuardHook.hook();
     }
