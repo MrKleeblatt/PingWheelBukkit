@@ -31,7 +31,7 @@ public class PingListener implements PluginMessageListener {
 
         if(!canPlayerUsePing(ping)) return false;
         if(!isPingWithinXYZLimits(ping)) return false;
-        if(!isInsidePingableWorldGuardRegion(ping)) {
+        if(Config.WORLDGUARD_ENABLED && !isInsidePingableWorldGuardRegion(ping)) {
             sendMessage(player, Config.WORLDGUARD_DENY_MESSAGE);
             return false;
         }
